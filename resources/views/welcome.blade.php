@@ -103,7 +103,6 @@
     <div id="panel">
         <h2>LinkCutter</h2>
         <form id="main">
-            @csrf
             <input type="text" name="url" class="text-input" placeholder="Paste a long url">
             <input type="submit" id="cut" value="Shorten">
         </form>
@@ -119,13 +118,11 @@
     crossorigin="anonymous"></script>
 <script>
 $('#main').submit(function () {
-    let csrf = $('input[name=_token]').val();
     let input = $('input[name=url]');
     $.ajax({
         type: "POST",
         url: "/api/cut",
         data: {
-            csrf: csrf,
             url: input.val()
         },
         dataType: "json",

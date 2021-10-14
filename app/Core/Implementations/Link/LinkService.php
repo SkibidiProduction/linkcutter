@@ -26,12 +26,12 @@ class LinkService
     {
         /** @var LinkRepository $linkRepository */
         $linkRepository = app(LinkRepository::class);
-        $isBaseLinkSet = $linkRepository->getByBaseLink($url);
+        $isBaseLinkSet = (bool) $linkRepository->getByBaseLink($url);
         if ($isBaseLinkSet) {
             return true;
         }
         $shortLink = $this->getShortLink();
-        $isResultLinkSet = $linkRepository->getByResultLink($shortLink);
+        $isResultLinkSet = (bool) $linkRepository->getByResultLink($shortLink);
         if (!$isResultLinkSet) {
             /** @var LinkData $link */
             $link = app(LinkData::class);
@@ -39,9 +39,7 @@ class LinkService
             $link->setResultLink($shortLink);
             return $link->store();
         } else {
-            $this->create($url);
+            return $this->create($url);
         }
-
-        return false;
     }
 }
